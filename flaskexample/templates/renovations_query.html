@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
+
+  <title>You can display table data!</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/bootstrap-template.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <!-- [endif] -->
+</head>
+
+
+{% include 'index.html' %}
+
+
+<div class="container">
+<div class="page-header">
+	<h1> Query </h1>
+</div>
+</div>
+
+<div class="container">
+	<h3> <b> Zipcode: </b>              {{query.zipcode}} </h3>
+	<h3> <b> Renovation: </b>   {{query.reno_feature}} </h3>
+	<h3> <b> Home Price (min-max): </b>  ${{query.HomeValue_min}} - ${{query.HomeValue_max}} </h3>
+	<h3> <b> Renovation Cost: </b>     ${{query.reno_cost}} </h3>
+	<h3> {{query.size}} recommendations found! {{query.isZero}}   &#128513 </h3>
+</div>
+
+
+
+<div class="container">
+	<html>
+	  <head>
+	    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+	    <meta charset="utf-8">
+	    <title>Marker Labels</title>
+	    <style>
+	       /* Set the size of the div element that contains the map */
+	      /* Always set the map height explicitly to define the size of the div
+	       * element that contains the map. */
+	      #map {
+		height: 400px;  /* The height is 400 pixels */
+		width: 100%;  /* The width is the width of the web page */
+	      }
+	      /* Optional: Makes the sample page fill the window. */
+	      html, body {
+		height: 400px;  /* The height is 400 pixels */
+		width: 100%;  /* The width is the width of the web page */
+		margin: -10;
+		padding: -10;
+	      }
+	    </style>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_KEY"></script>
+	    <script>
+	      // In the following example, markers appear when the user clicks on the map.
+	      // Each marker is labeled with a single alphabetical character.
+	      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	      var labelIndex = 0;
+
+	      function initialize() {
+		var lat = 42.3601
+		var long = -71.0589
+
+		{% if(query.size!=0) %}
+			lat = {{tables[0]["latitude"]}}
+			long = {{tables[0]["longitude"]}}
+		{% endif %}
+
+		var Boston = { lat: lat, lng: long};
+		var map = new google.maps.Map(document.getElementById('map'), {
+		  zoom: 12,
+		  center: Boston
+		});
+
+		{% for val1 in range(0,query.size) %}
+		  var lat = {{tables[val1]["latitude"]}};
+		  var long = {{tables[val1]["longitude"]}};
+		  var cpname = {{val1}}+1;
+		  var location = new google.maps.LatLng(lat, long);
+
+		  var marker = new google.maps.Marker({
+		    map: map,
+		    draggable: false,
+		    title: cpname,
+		    animation: google.maps.Animation.DROP,
+		    position: location,
+		    label: String(cpname)
+		  });
+		{% endfor %}
+
+	      }
+	      google.maps.event.addDomListener(window, 'load', initialize);
+	    </script>
+	  </head>
+	  <body>
+	    <div id="map"></div>
+	  </body>
+	</html>
+</div>
+<br>
+
+
+
+
+
+
+
+<div class = "container">
+<div align="right">
+	*profits are adjusted to user-input renovation cost, where profit(year) = predicted_market_value(year) - renovation_cost.  <br>
+	*renov. = renovation <br>
+	*all values, profits and costs are in the units of US dollars currancy. 
+</div>
+      <div class="row">
+        <div class="col-md-14">
+          <table class="table table-bordered">
+            <thead> <tr> 
+		<th>   </th> 
+		<th> <h3> <b> <center> House </center> </b>  </h3> </th> 
+		<th> <h3> <b> <center> 2020 <br> post-renovation <br> market value  </center> </b>  </h3> </th> 
+		<th> <h3> <b> <center> Expected <br> Additional <br> renovation cost  </center> </b>  </h3> </th> 
+		<th> <h3> <b> <center> 2020 profit  </center> </b>  </h3> </th> 
+	    </tr> </thead>
+		<tbody>
+		{% for val1 in range(0,query.size) %}
+			<tr>
+			<td> <h3> <b> {{val1+1}} </b> </h3> </td>
+			<td> <h3> 
+				<b>Address:</b> {{ tables[val1]["FULLADD"]}} 
+				<br> 
+				<b>Quik-flip 2019 estimate:</b> ${{ tables[val1]["MARKET_VALUE"]}}
+			</h3> </td>
+			<td> <h3> {{ tables[val1]["MVReno20"]}} </h3> </td>
+			<td> <h3> {{ tables[val1]["Expected_RenoCost"]}} </h3> </td>
+			<td> <h3> {{ tables[val1]["Prof20"]}} </h3> </td>
+			<tr>
+		{% endfor %}
+		
+		</tbody>
+          </table>
+        </div>
+       </div>
+</div>
+
+
+
+
+
+
+
+
+
