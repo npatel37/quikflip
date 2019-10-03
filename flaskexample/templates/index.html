@@ -134,10 +134,11 @@
 		</select>
 	</div> <!-- /.col-sm-8 -->
 	</div> <!-- row -->
+<!--
 	<div class="row">
         <div class="col-sm-4">
           <ul class="list-group"> <label for="sel1"> <h4> Renovation: </h4> </label> </ul>
-        </div><!-- /.col-sm-4 -->
+        </div><!-- /.col-sm-4 -- ! >
         <div class="col-sm-8">
 		<select class="form-control col-sm-3" id="reno_feature" name="reno_feature"> 
 			<option> Upgrade to Brick Exterior Finish </option>
@@ -149,10 +150,12 @@
 			<option> Upgrade to Elaborate Interior Finish </option>
 			<option> Upgrade to Excellent Interior Condition </option>
 		</select>
-	</div> <!-- /.col-sm-8 -->
-	</div> <!-- row -->
+	</div> <!-- /.col-sm-8 -- ! > 
+	</div> <!-- row -- ! >
+-->
+<center>
 	<div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
 		<!--   https://jqueryui.com/slider/#rangemin    -->
 		<!doctype html>
 		<html lang="en">
@@ -176,15 +179,17 @@
 		      }
 		    });
 		    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-		      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		      " - $" + $( "#slider-range" ).slider( "values", 1 ));
 		  } );
 		  </script>
 		</head>
 		<body>
 		 
 		<p>
-		  <label for="amount"> <h4> Home Price Range (2019): </h4> </label>
+		  <label for="amount"> <h4> Home Price Range (2019): </h4> </label> 
+		  <h4> <center>
 		  <input type="text" id="amount" name="HomeValue" readonly style="border:0; color:#7760aa; font-weight:bold;">
+		  </center> </h4>
 		</p>
 		 
 		<div id="slider-range"></div> 
@@ -192,8 +197,11 @@
 		</html>
 		<br>
         </div><!-- /.col-sm-4 -->
+	</div><!--- row -->
+</center>
+<!--
         <div class="col-sm-6">
-		<!--   https://jqueryui.com/slider/#rangemin    -->
+		<!--   https://jqueryui.com/slider/#rangemin    -- ! > 
 		<!doctype html>
 		<html lang="en">
 		<head>
@@ -230,9 +238,10 @@
 		 
 		</body>
 		</html>
-        </div><!-- /.col-sm-4 -->
-        </div><!--- row -->
-	<button type="submit" name="push" class="btn btn-primary" style="background-color:#7760aa">Submit</button>
+        </div><!-- /.col-sm-4 -- ! >
+        </div><!--- row -- ! > 
+-->
+	<button type="submit" name="push" class="btn btn-primary" style="background-color:#7760aa"> <h4> Submit </h4> </button>
 	</form>
 </div>
 

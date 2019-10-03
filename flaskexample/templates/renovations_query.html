@@ -35,9 +35,9 @@
 
 <div class="container">
 	<h3> <b> Zipcode: </b>              {{query.zipcode}} </h3>
-	<h3> <b> Renovation: </b>   {{query.reno_feature}} </h3>
+	<!-- <h3> <b> Renovation: </b>           {{query.reno_feature}} </h3> -->
 	<h3> <b> Home Price (min-max): </b>  ${{query.HomeValue_min}} - ${{query.HomeValue_max}} </h3>
-	<h3> <b> Renovation Cost: </b>     ${{query.reno_cost}} </h3>
+	<!-- <h3> <b> Renovation Cost: </b>     ${{query.reno_cost}} </h3> -->
 	<h3> {{query.size}} recommendations found! {{query.isZero}}   &#128513 </h3>
 </div>
 
@@ -128,13 +128,10 @@
 </div>
       <div class="row">
         <div class="col-md-14">
-          <table class="table table-bordered">
+          <table class="table table">
             <thead> <tr> 
 		<th>   </th> 
-		<th> <h3> <b> <center> House </center> </b>  </h3> </th> 
-		<th> <h3> <b> <center> 2020 <br> post-renovation <br> market value  </center> </b>  </h3> </th> 
-		<th> <h3> <b> <center> Expected <br> Additional <br> renovation cost  </center> </b>  </h3> </th> 
-		<th> <h3> <b> <center> 2020 profit  </center> </b>  </h3> </th> 
+		<!-- <th> <h3> <b> <center> House </center> </b>  </h3> </th>  -->
 	    </tr> </thead>
 		<tbody>
 		{% for val1 in range(0,query.size) %}
@@ -143,11 +140,65 @@
 			<td> <h3> 
 				<b>Address:</b> {{ tables[val1]["FULLADD"]}} 
 				<br> 
-				<b>Quik-flip 2019 estimate:</b> ${{ tables[val1]["MARKET_VALUE"]}}
+				<b>Quik-flip 2019 estimate:</b> ${{ tables[val1]["MARKET_VALUE"]}} <br>
+				<b>Pre-Reno. 2020 estimate:</b> ${{ tables[val1]["Appreciation_2020"]}} (${{ tables[val1]["1yr_Increase"] }})
+				<br></br>
+
+			      <div class="row col-md-14"> <table class="table table-bordered">
+					<thead> <tr> 
+						<th> <h3> <b> <center> Renovation upgrade </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center> Post-reno. <br> 2020 estimate  </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center> Estimated <br> Renovation <br> cost </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center> Post-reno. <br> 2020 profit  </center> </b>  </h3> </th> 
+					</tr> </thead>
+				    <thead> <tr> 
+				    <th>
+					 <h3> Excellent Internal Condition  </h3> 
+					 <h3> Elaborate Interior Finish  </h3> 
+					 <h3> Good External Condition  </h3> 
+					 <h3> Brick Exterior Finish  </h3> 
+					 <h3> Adding a Fire Place  </h3> 
+					 <h3> Update to Mansard Roof  </h3> 
+					 <h3> Luxury Kitchen  </h3> 
+					 <h3> Modern Kitchen  </h3> 
+				    </th> 
+				    <th>
+					 <h3> ${{ tables[val1]["MVReno20_INT_COND"]}}  </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_INT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_EXT_COND"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_EXT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_FRPL"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_ROOF_M"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_KITCHEN_L"]}}   </h3> 
+					 <h3> ${{ tables[val1]["MVReno20_KITCHEN_M"]}}   </h3> 
+				    </th> 
+				    <th>
+					 <h3> ${{ tables[val1]["Expected_RenoCost_INT_COND"]}}  </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_INT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_EXT_COND"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_EXT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_FRPL"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_ROOF_M"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_KITCHEN_L"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Expected_RenoCost_KITCHEN_M"]}}   </h3> 
+				    </th> 
+				    <th>
+					 <h3> ${{ tables[val1]["Prof20_INT_COND"]}}  </h3> 
+					 <h3> ${{ tables[val1]["Prof20_INT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_EXT_COND"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_EXT_FIN"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_FRPL"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_ROOF_M"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_KITCHEN_L"]}}   </h3> 
+					 <h3> ${{ tables[val1]["Prof20_KITCHEN_M"]}}   </h3> 
+				    </th> 
+				  </tr> </thead>
+			          </table> </div>
+
+
+
+
 			</h3> </td>
-			<td> <h3> {{ tables[val1]["MVReno20"]}} </h3> </td>
-			<td> <h3> {{ tables[val1]["Expected_RenoCost"]}} </h3> </td>
-			<td> <h3> {{ tables[val1]["Prof20"]}} </h3> </td>
 			<tr>
 		{% endfor %}
 		
