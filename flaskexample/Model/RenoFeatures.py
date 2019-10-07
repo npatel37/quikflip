@@ -30,6 +30,29 @@ def addressfix(val):
 	val = "0"+val 
 	return val;
 
+def ModelIt2(feature_of_interest,query):
+
+	## -- read in the data for relavent upgrades --
+	inputfname="flaskexample/Model/AllReno.csv"
+	recommend = pd.read_csv(inputfname)
+
+	# -- convert prices to integer, if pandas read as object variable --
+	recommend["MARKET_VALUE"] = recommend["MARKET_VALUE"].astype(int);
+
+	#	for z in pd.unique(recommend["ZIPCODE"]):
+	#		temper = recommend[recommend["ZIPCODE"]==z]
+	#		print(z, len(temper))
+
+	# -- adjust data to user defined query -- 
+	recommend = recommend[recommend["ZIPCODE"]==int(query["zipcode"])]; 
+	recommend = recommend[recommend["MARKET_VALUE"]<int(query["HomeValue_max"])]
+	recommend = recommend[recommend["MARKET_VALUE"]>int(query["HomeValue_min"])]
+
+	query["size"] = len(recommend);
+	query["isZero"] = "please try again with different features" if len(recommend)==0 else " "; 
+	return(recommend);
+
+
 def ModelIt(feature_of_interest,query):
 
 	## -- read in the data for relavent upgrades --

@@ -8,13 +8,17 @@
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
 
-  <title>You can display table data!</title>
+  <title>QuikFlip:Query:{{query.zipcode}}</title>
 
   <!-- Bootstrap core CSS -->
   <link href="../static/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
   <link href="../static/css/bootstrap-template.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -23,8 +27,8 @@
   <!-- [endif] -->
 </head>
 
-
 {% include 'index.html' %}
+
 
 
 <div class="container">
@@ -36,7 +40,7 @@
 <div class="container">
 	<h3> <b> Zipcode: </b>              {{query.zipcode}} </h3>
 	<!-- <h3> <b> Renovation: </b>           {{query.reno_feature}} </h3> -->
-	<h3> <b> Home Price (min-max): </b>  ${{query.HomeValue_min}} - ${{query.HomeValue_max}} </h3>
+	<h3> <b> Home Price (min-max): </b>  {{query.HomeValue_min}} - {{query.HomeValue_max}} </h3>
 	<!-- <h3> <b> Renovation Cost: </b>     ${{query.reno_cost}} </h3> -->
 	<h3> {{query.size}} recommendations found! {{query.isZero}}   &#128513 </h3>
 </div>
@@ -65,7 +69,7 @@
 		padding: -10;
 	      }
 	    </style>
-	    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_KEY"></script>
+	    <script src="https://maps.googleapis.com/maps/api/js?key=MY_KEY"></script>
 	    <script>
 	      // In the following example, markers appear when the user clicks on the map.
 	      // Each marker is labeled with a single alphabetical character.
@@ -83,7 +87,7 @@
 
 		var Boston = { lat: lat, lng: long};
 		var map = new google.maps.Map(document.getElementById('map'), {
-		  zoom: 12,
+		  zoom: 13,
 		  center: Boston
 		});
 
@@ -122,9 +126,6 @@
 
 <div class = "container">
 <div align="right">
-	*profits are adjusted to user-input renovation cost, where profit(year) = predicted_market_value(year) - renovation_cost.  <br>
-	*renov. = renovation <br>
-	*all values, profits and costs are in the units of US dollars currancy. 
 </div>
       <div class="row">
         <div class="col-md-14">
@@ -140,57 +141,62 @@
 			<td> <h3> 
 				<b>Address:</b> {{ tables[val1]["FULLADD"]}} 
 				<br> 
-				<b>Quik-flip 2019 estimate:</b> ${{ tables[val1]["MARKET_VALUE"]}} <br>
-				<b>Pre-Reno. 2020 estimate:</b> ${{ tables[val1]["Appreciation_2020"]}} (${{ tables[val1]["1yr_Increase"] }})
+				<b>Quik-flip 2019 estimate:</b> {{ tables[val1]["MARKET_VALUE"]}} <br>
+				<b>Pre-renovation 2020 estimate:</b> {{ tables[val1]["Appreciation_2020"]}} ({{ tables[val1]["1yr_Increase"] }})
 				<br></br>
 
 			      <div class="row col-md-14"> <table class="table table-bordered">
 					<thead> <tr> 
-						<th> <h3> <b> <center> Renovation upgrade </center> </b>  </h3> </th> 
-						<th> <h3> <b> <center> Post-reno. <br> 2020 estimate  </center> </b>  </h3> </th> 
-						<th> <h3> <b> <center> Estimated <br> Renovation <br> cost </center> </b>  </h3> </th> 
-						<th> <h3> <b> <center> Post-reno. <br> 2020 profit  </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center>  <a href="#" data-toggle="tooltip" data-placement="left"  title="Proposed features for renovations">Renovation upgrades</a>  </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center>  <a href="#" data-toggle="tooltip" data-placement="top" title="Year 2020 market-value estimate for the renovated property">Post-reno. <br> 2020 estimate</a>  </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center>  <a href="#" data-toggle="tooltip" data-placement="top" title="Estimated cost of renovations, approximated based on national average and the number of floors">Estimated <br> renovation <br> cost</a>  </center> </b>  </h3> </th> 
+						<th> <h3> <b> <center>  <a href="#" data-toggle="tooltip" data-placement="top" title="Expected profit in year 2020 obtained using: 
+Post-reno. 2020 estimate - quik-flip 2019 estimate - estimated renovation cost. 
+">Post-reno. <br> 2020 profit</a>   <a href="#" data-toggle="tooltip" data-placement="top" title="Return On Investment where investment = 2019 market-value + renovation costs"> (ROI) <br> </a>  </center> </b>  </h3> </th> 
 					</tr> </thead>
 				    <thead> <tr> 
 				    <th>
 					 <h3> Excellent Internal Condition  </h3> 
 					 <h3> Elaborate Interior Finish  </h3> 
 					 <h3> Good External Condition  </h3> 
+					 <h3> Cement Exterior Finish  </h3> 
 					 <h3> Brick Exterior Finish  </h3> 
-					 <h3> Adding a Fire Place  </h3> 
 					 <h3> Update to Mansard Roof  </h3> 
 					 <h3> Luxury Kitchen  </h3> 
 					 <h3> Modern Kitchen  </h3> 
 				    </th> 
 				    <th>
-					 <h3> ${{ tables[val1]["MVReno20_INT_COND"]}}  </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_INT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_EXT_COND"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_EXT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_FRPL"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_ROOF_M"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_KITCHEN_L"]}}   </h3> 
-					 <h3> ${{ tables[val1]["MVReno20_KITCHEN_M"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_INT_COND"]}}  </h3> 
+					 <h3> {{ tables[val1]["MVReno20_INT_FIN"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_EXT_COND"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_EXT_FIN_C"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_EXT_FIN_B"]}}   </h3> 
+					<!-- <h3> {{ tables[val1]["MVReno20_FRPL"]}}   </h3> -->
+					 <h3> {{ tables[val1]["MVReno20_ROOF_M"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_KITCHEN_L"]}}   </h3> 
+					 <h3> {{ tables[val1]["MVReno20_KITCHEN_M"]}}   </h3> 
 				    </th> 
 				    <th>
-					 <h3> ${{ tables[val1]["Expected_RenoCost_INT_COND"]}}  </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_INT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_EXT_COND"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_EXT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_FRPL"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_ROOF_M"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_KITCHEN_L"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Expected_RenoCost_KITCHEN_M"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_INT_COND"]}}  </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_INT_FIN"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_EXT_COND"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_EXT_FIN_C"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_EXT_FIN_B"]}}   </h3> 
+					<!-- <h3> {{ tables[val1]["Expected_RenoCost_FRPL"]}}   </h3> -->
+					 <h3> {{ tables[val1]["Expected_RenoCost_ROOF_M"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_KITCHEN_L"]}}   </h3> 
+					 <h3> {{ tables[val1]["Expected_RenoCost_KITCHEN_M"]}}   </h3> 
 				    </th> 
 				    <th>
-					 <h3> ${{ tables[val1]["Prof20_INT_COND"]}}  </h3> 
-					 <h3> ${{ tables[val1]["Prof20_INT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_EXT_COND"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_EXT_FIN"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_FRPL"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_ROOF_M"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_KITCHEN_L"]}}   </h3> 
-					 <h3> ${{ tables[val1]["Prof20_KITCHEN_M"]}}   </h3> 
+					 <h3> {{ tables[val1]["Prof20_INT_COND"]}}  ({{ tables[val1]["ROI_INT_COND"]}}%)</h3> 
+					 <h3> {{ tables[val1]["Prof20_INT_FIN"]}}  ({{ tables[val1]["ROI_INT_FIN"]}}%)</h3> 
+					 <h3> {{ tables[val1]["Prof20_EXT_COND"]}}  ({{ tables[val1]["ROI_EXT_COND"]}}%)</h3>  
+					 <h3> {{ tables[val1]["Prof20_EXT_FIN_C"]}}  ({{ tables[val1]["ROI_EXT_FIN_C"]}}%)</h3> 
+					 <h3> {{ tables[val1]["Prof20_EXT_FIN_B"]}}  ({{ tables[val1]["ROI_EXT_FIN_B"]}}%)</h3> 
+					<!-- <h3> {{ tables[val1]["Prof20_FRPL"]}}   </h3> -->
+					 <h3> {{ tables[val1]["Prof20_ROOF_M"]}}  ({{ tables[val1]["ROI_ROOF_M"]}}%)</h3>  
+					 <h3> {{ tables[val1]["Prof20_KITCHEN_L"]}}  ({{ tables[val1]["ROI_KITCHEN_L"]}}%)</h3> 
+					 <h3> {{ tables[val1]["Prof20_KITCHEN_M"]}}  ({{ tables[val1]["ROI_KITCHEN_M"]}}%)</h3>  
 				    </th> 
 				  </tr> </thead>
 			          </table> </div>
@@ -210,7 +216,11 @@
 
 
 
-
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
 
 
 
