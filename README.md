@@ -12,3 +12,7 @@ A linear regression model is used with L1 and L2 regularization (Elasticnet) to 
 The final product is deployed as a web app at [quikflip.xyz](http://quikflip.xyz). This app provides a recommendations for houses that has the largest ROI prediction based on the regression house evaluation model. This app allow house flippers to make quantitavely backed decisions for their bussiness and saves time that is often spent looking for real-estate investments. 
 
 
+#
+
+### Disclaimer
+The quikflip was built as part of an independent fun project. quikflip app or anyone associated with this app is not responsible for any decisions made based on this project/app. 
