@@ -1,6 +1,8 @@
 ### QuikFlip Flask App
 
-This is a Flask app built off the [standard bootstrap template](https://getbootstrap.com/docs/3.3/) that includes python scripts built for making back-end data analysis and modeling. The final web app product is deplayed using amzon AWS. Please visit my app at quikflip.xyz
+This is a Flask app built off the [standard bootstrap template](https://getbootstrap.com/docs/3.3/) that includes python scripts built for making back-end data analysis and modeling. The final web app product is deplayed using amzon AWS.
+
+App: [quikflip](http://quikflip.xyz). 
 
 ### Dataset 
 The city of Boston provides [tax-assessment data](https://data.boston.gov/dataset/property-assessment/) for all the commercial and residential properties from 2010 to 2019 (current) years. This is the main dataset used for building this app. 
