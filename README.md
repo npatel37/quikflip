@@ -7,7 +7,10 @@ App: [quikflip](http://quikflip.xyz).
 ### Dataset 
 The city of Boston provides [tax-assessment data](https://data.boston.gov/dataset/property-assessment/) for all the commercial and residential properties from 2010 to 2019 (current) years. This is the main dataset used for building this app. 
 
+
 ### Modeling
+Given the tax-assessment of each year and ZIP-code, time-series modeling using Facebook Prophet was performed in order to forecast the 2020 mean-tax-assessment of houses in each ZIP-code in Boston. This feature is then used as an input for the regression model. 
+
 A linear regression model is used with L1 and L2 regularization (Elasticnet) to predict current and future market-value of residential properties. Additionally, cross-validation was performed for hyperparameter tuning and to control overfitting. The model is used to extract the feature parameters that positively and negatively affect the market evaluation of a house. The negatively weighted features are used to suggest renovation, and market-value is predicted after this renovation to estimate the total return on investment (ROI). 
 
 ### Outcome and Product
