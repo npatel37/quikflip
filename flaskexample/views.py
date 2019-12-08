@@ -15,7 +15,7 @@ from flaskexample import app
 #from flaskexample.a_model import ModelIt
 from flask import request
 from pyzillow.pyzillow import ZillowWrapper, GetDeepSearchResults
-zillow_data = ZillowWrapper("ZILLOW_KEY")
+zillow_data = ZillowWrapper("X1-ZWz1b88d9eaq6j_1wtus")
 from flaskexample.Model import RenoFeatures
 
 @app.route('/')
@@ -32,6 +32,39 @@ def millify(n):
 	millidx = max(0,min(len(millnames)-1,
 		int(math.floor(0 if n == 0 else math.log10(abs(n))/3))))
 	return '{:.3f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
+
+def human_readable(val):
+	val = int(val); 
+
+	if(val>0):
+		val = list(str(val))
+		if(len(val)<4): 
+			val = "".join([x for x in val])
+			val = "$"+val
+		elif((len(val)<7) & (len(val)>3)): 
+			val.insert(-3,",")
+			val = "".join([x for x in val])
+			val = "$"+val
+		elif((len(val)<10) & (len(val)>6)): 
+			val.insert(-6,".")
+			val = "".join([x for x in val[0:5]])
+			val = "$"+val+" Million"
+		return val; 
+	if(val<0):
+		val = list(str(val))
+		val = val[1:]; 
+		if(len(val)<4): 
+			val = "".join([x for x in val])
+			val = "-$"+val
+		elif((len(val)<7) & (len(val)>3)): 
+			val.insert(-3,",")
+			val = "".join([x for x in val])
+			val = "-$"+val
+		elif((len(val)<10) & (len(val)>6)): 
+			val.insert(-6,".")
+			val = "".join([x for x in val[0:5]])
+			val = "-$"+val+" Million"
+		return val; 
 
 
 @app.route('/reno_features')
@@ -62,30 +95,46 @@ def reno_features():
 	recommendations = RenoFeatures.ModelIt2(qReno_Feature,query_parm)
 	recommendations = recommendations.reset_index(drop=True); 
 
-	recommendations["Appreciation_2020"] = recommendations["Appreciation_2020"].map(millify); 
-	recommendations["MARKET_VALUE"] = recommendations["MARKET_VALUE"].map(millify); 
-	recommendations["Prof20_INT_COND"] = recommendations["Prof20_INT_COND"].map(millify); 
-	recommendations["Prof20_EXT_COND"] = recommendations["Prof20_EXT_COND"].map(millify); 
-	recommendations["Prof20_INT_FIN"] = recommendations["Prof20_INT_FIN"].map(millify); 
-	recommendations["Prof20_EXT_FIN"] = recommendations["Prof20_EXT_FIN"].map(millify); 
-	recommendations["Prof20_FRPL"] = recommendations["Prof20_FRPL"].map(millify); 
-	recommendations["Prof20_ROOF_M"] = recommendations["Prof20_ROOF_M"].map(millify); 
-	recommendations["Prof20_KITCHEN_L"] = recommendations["Prof20_KITCHEN_L"].map(millify); 
-	recommendations["Prof20_KITCHEN_M"] = recommendations["Prof20_KITCHEN_M"].map(millify);
+	recommendations["Appreciation_2020"] = recommendations["Appreciation_2020"].map(human_readable); 
+	recommendations["MARKET_VALUE"] = recommendations["MARKET_VALUE"].map(human_readable); 
+	recommendations["Prof20_INT_COND"] = recommendations["Prof20_INT_COND"].map(human_readable); 
+	recommendations["Prof20_EXT_COND"] = recommendations["Prof20_EXT_COND"].map(human_readable); 
+	recommendations["Prof20_INT_FIN"] = recommendations["Prof20_INT_FIN"].map(human_readable); 
+	recommendations["Prof20_EXT_FIN_B"] = recommendations["Prof20_EXT_FIN_B"].map(human_readable); 
+	recommendations["Prof20_EXT_FIN_C"] = recommendations["Prof20_EXT_FIN_C"].map(human_readable); 
+	recommendations["Prof20_FRPL"] = recommendations["Prof20_FRPL"].map(human_readable); 
+	recommendations["Prof20_ROOF_M"] = recommendations["Prof20_ROOF_M"].map(human_readable); 
+	recommendations["Prof20_KITCHEN_L"] = recommendations["Prof20_KITCHEN_L"].map(human_readable); 
+	recommendations["Prof20_KITCHEN_M"] = recommendations["Prof20_KITCHEN_M"].map(human_readable);
 
-	recommendations["MVReno20_INT_COND"] = recommendations["MVReno20_INT_COND"].map(millify); 
-	recommendations["MVReno20_EXT_COND"] = recommendations["MVReno20_EXT_COND"].map(millify); 
-	recommendations["MVReno20_INT_FIN"] = recommendations["MVReno20_INT_FIN"].map(millify); 
-	recommendations["MVReno20_EXT_FIN"] = recommendations["MVReno20_EXT_FIN"].map(millify); 
-	recommendations["MVReno20_FRPL"] = recommendations["MVReno20_FRPL"].map(millify); 
-	recommendations["MVReno20_ROOF_M"] = recommendations["MVReno20_ROOF_M"].map(millify); 
-	recommendations["MVReno20_KITCHEN_L"] = recommendations["MVReno20_KITCHEN_L"].map(millify); 
-	recommendations["MVReno20_KITCHEN_M"] = recommendations["MVReno20_KITCHEN_M"].map(millify);
+	recommendations["MVReno20_INT_COND"] = recommendations["MVReno20_INT_COND"].map(human_readable); 
+	recommendations["MVReno20_EXT_COND"] = recommendations["MVReno20_EXT_COND"].map(human_readable); 
+	recommendations["MVReno20_INT_FIN"] = recommendations["MVReno20_INT_FIN"].map(human_readable); 
+	recommendations["MVReno20_EXT_FIN_B"] = recommendations["MVReno20_EXT_FIN_B"].map(human_readable); 
+	recommendations["MVReno20_EXT_FIN_C"] = recommendations["MVReno20_EXT_FIN_C"].map(human_readable); 
+	recommendations["MVReno20_FRPL"] = recommendations["MVReno20_FRPL"].map(human_readable); 
+	recommendations["MVReno20_ROOF_M"] = recommendations["MVReno20_ROOF_M"].map(human_readable); 
+	recommendations["MVReno20_KITCHEN_L"] = recommendations["MVReno20_KITCHEN_L"].map(human_readable); 
+	recommendations["MVReno20_KITCHEN_M"] = recommendations["MVReno20_KITCHEN_M"].map(human_readable);
 
-	recommendations["1yr_Increase"] = recommendations["1yr_Increase"].map(millify); 
+	recommendations["Expected_RenoCost_INT_COND"] = recommendations["Expected_RenoCost_INT_COND"].map(human_readable); 
+	recommendations["Expected_RenoCost_EXT_COND"] = recommendations["Expected_RenoCost_EXT_COND"].map(human_readable); 
+	recommendations["Expected_RenoCost_INT_FIN"] = recommendations["Expected_RenoCost_INT_FIN"].map(human_readable); 
+	recommendations["Expected_RenoCost_EXT_FIN_B"] = recommendations["Expected_RenoCost_EXT_FIN_B"].map(human_readable); 
+	recommendations["Expected_RenoCost_EXT_FIN_C"] = recommendations["Expected_RenoCost_EXT_FIN_C"].map(human_readable); 
+	recommendations["Expected_RenoCost_FRPL"] = recommendations["Expected_RenoCost_FRPL"].map(human_readable); 
+	recommendations["Expected_RenoCost_ROOF_M"] = recommendations["Expected_RenoCost_ROOF_M"].map(human_readable); 
+	recommendations["Expected_RenoCost_KITCHEN_L"] = recommendations["Expected_RenoCost_KITCHEN_L"].map(human_readable); 
+	recommendations["Expected_RenoCost_KITCHEN_M"] = recommendations["Expected_RenoCost_KITCHEN_M"].map(human_readable);
+
+	recommendations["1yr_Increase"] = recommendations["1yr_Increase"].map(human_readable); 
 
 	recommendations = recommendations.to_dict('index')
 	dic = {}
+
+
+	query_parm["HomeValue_min"] = human_readable(qHomeValue_min);
+	query_parm["HomeValue_max"] = human_readable(qHomeValue_max);
 	#	for x in recommendations[0].items(): 
 	#		print(x)
 

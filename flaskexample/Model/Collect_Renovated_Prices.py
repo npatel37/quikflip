@@ -37,6 +37,33 @@ def main(total, cmdargs):
 	all_features = np.delete(all_features, index)
 	target_feature = "MARKET_VALUE"
 
+	#	my_feat = ['LU_R1', 'LU_R2', 'LU_R3', 'R_BLDG_STYL_BW', 'R_BLDG_STYL_CL',
+	#		'R_BLDG_STYL_CN', 'R_BLDG_STYL_CP', 'R_BLDG_STYL_CV', 'R_BLDG_STYL_DK',
+	#		'R_BLDG_STYL_DX', 'R_BLDG_STYL_OT', 'R_BLDG_STYL_RE', 'R_BLDG_STYL_RM',
+	#		'R_BLDG_STYL_RN', 'R_BLDG_STYL_RR', 'R_BLDG_STYL_SD', 'R_BLDG_STYL_SL',
+	#		'R_BLDG_STYL_TD', 'R_BLDG_STYL_TF', 'R_BLDG_STYL_TL', 'R_BLDG_STYL_VT',
+	#		'R_ROOF_TYP_F', 'R_ROOF_TYP_G', 'R_ROOF_TYP_H', 'R_ROOF_TYP_L',
+	#		'R_ROOF_TYP_M', 'R_ROOF_TYP_S', 'R_EXT_FIN_A', 'R_EXT_FIN_B',
+	#		'R_EXT_FIN_C', 'R_EXT_FIN_F', 'R_EXT_FIN_G', 'R_EXT_FIN_M',
+	#		'R_EXT_FIN_O', 'R_EXT_FIN_P', 'R_EXT_FIN_S', 'R_EXT_FIN_U',
+	#		'R_EXT_FIN_V', 'R_EXT_FIN_W', 'R_BTH_STYLE_L', 'R_BTH_STYLE_M',
+	#		'R_BTH_STYLE_N', 'R_BTH_STYLE_S', 'R_KITCH_STYLE_L', 'R_KITCH_STYLE_M',
+	#		'R_KITCH_STYLE_N', 'R_KITCH_STYLE_S', 'R_HEAT_TYP_E', 'R_HEAT_TYP_F',
+	#		'R_HEAT_TYP_N', 'R_HEAT_TYP_O', 'R_HEAT_TYP_P', 'R_HEAT_TYP_S',
+	#		'R_HEAT_TYP_W', 'R_AC_C', 'R_AC_D', 'R_AC_N', 'R_AC_Y', 'R_EXT_CND_A',
+	#		'R_EXT_CND_E', 'R_EXT_CND_F', 'R_EXT_CND_G', 'R_EXT_CND_P',
+	#		'R_OVRALL_CND_A', 'R_OVRALL_CND_E', 'R_OVRALL_CND_F', 'R_OVRALL_CND_G',
+	#		'R_OVRALL_CND_P', 'R_INT_CND_A', 'R_INT_CND_E', 'R_INT_CND_F',
+	#		'R_INT_CND_G', 'R_INT_CND_P', 'R_INT_FIN_E', 'R_INT_FIN_N',
+	#		'R_INT_FIN_S', 'R_VIEW_A', 'R_VIEW_E', 'R_VIEW_F', 'R_VIEW_G',
+	#		'R_VIEW_P', 'PTYPE_101.0', 'PTYPE_104.0', 'PTYPE_105.0',
+	#		   'OWN_OCC','LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA', 'LIVING_AREA',
+	#		'NUM_FLOORS', 'R_TOTAL_RMS', 'R_BDRMS', 'R_FULL_BTH', 'R_HALF_BTH',
+	#		'R_KITCH', 'R_FPLACE', 'R_TOTAL_BTH', 'DIS0', 'DIS1',
+	#		'DIS2', 'DIS3', 'DIS4', 'DIS5', 'ZIP_MV','key']
+
+
+
 	my_feat = ['LU_R1', 'LU_R2', 'LU_R3', 'R_BLDG_STYL_BW', 'R_BLDG_STYL_CL',
 		'R_BLDG_STYL_CN', 'R_BLDG_STYL_CP', 'R_BLDG_STYL_CV', 'R_BLDG_STYL_DK',
 		'R_BLDG_STYL_DX', 'R_BLDG_STYL_OT', 'R_BLDG_STYL_RE', 'R_BLDG_STYL_RM',
@@ -57,10 +84,9 @@ def main(total, cmdargs):
 		'R_INT_CND_G', 'R_INT_CND_P', 'R_INT_FIN_E', 'R_INT_FIN_N',
 		'R_INT_FIN_S', 'R_VIEW_A', 'R_VIEW_E', 'R_VIEW_F', 'R_VIEW_G',
 		'R_VIEW_P', 'PTYPE_101.0', 'PTYPE_104.0', 'PTYPE_105.0',
-		   'OWN_OCC','LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA', 'LIVING_AREA',
+		   'OWN_OCC','LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA',
 		'NUM_FLOORS', 'R_TOTAL_RMS', 'R_BDRMS', 'R_FULL_BTH', 'R_HALF_BTH',
-		'R_KITCH', 'R_FPLACE', 'R_TOTAL_BTH', 'DIS0', 'DIS1',
-		'DIS2', 'DIS3', 'DIS4', 'DIS5', 'ZIP_MV','key']
+		'R_KITCH', 'R_FPLACE', 'R_TOTAL_BTH', 'DIS0', 'ZIPYR_TAX','key']
 	target_feat = "MARKET_VALUE"
 
 	filemodel = open('finalized_model.sav','rb')
@@ -305,8 +331,17 @@ def Renovate(dataf,model,feature_of_interest,my_feat):
 		rec["R_KITCH_STYLE_M"] = 1;
 		rec["Expected_RenoCost"] = 16000; 
 
+	# 2019 estimate MV
 	rec["MVReno19"] = np.exp(model.predict(rec[my_feat])); 
+
+	# Load the 2020 time-series data, needed to predict 2020 values!
+	tax_timedf = pickle.load(open("Tax_TimeSeries/2020ZipCodeTax_Predictions.dat",'rb'));
 	rec["key"] = 2020;
+	Zips = tax_timedf.columns.ravel()
+	mydict = {Zip:tax_timedf[Zip]["yhat"] for Zip in Zips}
+	rec["ZIPYR_TAX"] = rec["ZIPCODE"].map(mydict)
+
+
 	rec["MVReno20"] = np.exp(model.predict(rec[my_feat])); 
 	rec["Prof19"] = rec["MVReno19"] - rec["MARKET_VALUE"] - rec["Expected_RenoCost"]
 	rec["Prof20"] = rec["MVReno20"] - rec["MARKET_VALUE"] - rec["Expected_RenoCost"]

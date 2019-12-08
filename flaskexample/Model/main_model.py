@@ -20,7 +20,7 @@ pd.options.display.max_rows = 200
 df3 = pd.read_csv("downsized_7.csv")
 df3['PTYPE'] = df3['PTYPE'].astype('O') 
 
-myfeat = ['key', 'PTYPE','LU', 'OWN_OCC', 'LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA', 'LIVING_AREA', 'NUM_FLOORS','R_BLDG_STYL', 'R_ROOF_TYP', 'R_EXT_FIN', 'R_TOTAL_RMS', 'R_BDRMS','R_FULL_BTH', 'R_HALF_BTH', 'R_BTH_STYLE', 'R_KITCH', 'R_KITCH_STYLE','R_HEAT_TYP', 'R_AC', 'R_FPLACE', 'R_EXT_CND', 'R_OVRALL_CND','R_INT_CND', 'R_INT_FIN', 'R_VIEW', 'R_TOTAL_BTH','MARKET_VALUE', "ZIP_MV",'DIS0', 'DIS1', 'DIS2', 'DIS3', 'DIS4', 'DIS5']
+myfeat = ['key', 'PTYPE', 'LU', 'OWN_OCC', 'LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA', 'NUM_FLOORS','R_BLDG_STYL', 'R_ROOF_TYP', 'R_EXT_FIN', 'R_TOTAL_RMS', 'R_BDRMS','R_FULL_BTH', 'R_HALF_BTH', 'R_BTH_STYLE', 'R_KITCH', 'R_KITCH_STYLE','R_HEAT_TYP', 'R_AC', 'R_FPLACE', 'R_EXT_CND','R_INT_CND', 'R_INT_FIN', 'R_VIEW', 'R_TOTAL_BTH','MARKET_VALUE', "ZIPYR_TAX",'DIS0']
 #df3.columns.to_series().groupby(df3.dtypes).groups
 
 dumFeat = ['LU', 'R_BLDG_STYL', 'R_ROOF_TYP','R_EXT_FIN', 'R_BTH_STYLE', 'R_KITCH_STYLE', 'R_HEAT_TYP', 'R_AC','R_EXT_CND', 'R_OVRALL_CND', 'R_INT_CND', 'R_INT_FIN', 'R_VIEW', "PTYPE"]
@@ -53,10 +53,9 @@ my_feat = ['LU_R1', 'LU_R2', 'LU_R3', 'R_BLDG_STYL_BW', 'R_BLDG_STYL_CL',
         'R_INT_CND_G', 'R_INT_CND_P', 'R_INT_FIN_E', 'R_INT_FIN_N',
         'R_INT_FIN_S', 'R_VIEW_A', 'R_VIEW_E', 'R_VIEW_F', 'R_VIEW_G',
         'R_VIEW_P', 'PTYPE_101.0', 'PTYPE_104.0', 'PTYPE_105.0',
-           'OWN_OCC','LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA', 'LIVING_AREA',
+           'OWN_OCC','LAND_SF', 'YR_BUILT', 'YR_REMOD', 'GROSS_AREA',
         'NUM_FLOORS', 'R_TOTAL_RMS', 'R_BDRMS', 'R_FULL_BTH', 'R_HALF_BTH',
-        'R_KITCH', 'R_FPLACE', 'R_TOTAL_BTH', 'DIS0', 'DIS1',
-        'DIS2', 'DIS3', 'DIS4', 'DIS5', 'ZIP_MV','key']
+        'R_KITCH', 'R_FPLACE', 'R_TOTAL_BTH', 'DIS0', 'ZIPYR_TAX','key']
 target_feat = "MARKET_VALUE"
 
 df3.columns.to_series().groupby(df3.dtypes).groups
@@ -95,17 +94,18 @@ print("L1_ratio = ", ElasticNetCVModel2.l1_ratio_)
 print(coef_val.sort_values(ascending=False))
 
 
-plt.scatter(X_test["LIVING_AREA"],Y_test)
-plt.scatter(X_test["LIVING_AREA"],ElasticNetCVModel2.predict(X_test[my_feat]))
+#plt.scatter(X_test["GROSS_AREA"],Y_test)
+#plt.scatter(X_test["GROSS_AREA"],ElasticNetCVModel2.predict(X_test[my_feat]))
 
-plt.scatter(X_test["GROSS_AREA"],Y_test)
-plt.scatter(X_test["GROSS_AREA"],ElasticNetCVModel2.predict(X_test[my_feat]))
+#plt.scatter(X_test["GROSS_AREA"],Y_test)
+#plt.scatter(X_test["GROSS_AREA"],ElasticNetCVModel2.predict(X_test[my_feat]))
 
 
 df3["Residual"] =  -np.exp(ElasticNetCVModel2.predict(df3[my_feat])) + np.exp(df3["MARKET_VALUE"])
-RSS = (df3["Residual"]**2).sum()/len(df3)
-print(np.sqrt(RSS))
+#RSS = (df3["Residual"]**2).sum()/len(df3)
+#print(np.sqrt(RSS))
 
-
+MAE = np.abs(df3["Residual"].values).sum()/len(df3)
+print("\nmean absolute error (MAE) = ", MAE)
 
 
